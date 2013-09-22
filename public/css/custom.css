@@ -1,0 +1,224 @@
+/* Basics */
+
+body {
+	padding: 0 0 2em 0;
+	overflow-y: scroll;
+	overflow-x: auto;
+}
+
+h1 {
+	margin-bottom: .5em;
+}
+
+/* Form basics */
+
+fieldset {
+	margin-bottom: 1em;
+	padding: .5em;
+}
+
+legend.well {
+	background-color: #eee;
+	font-weight: bold;
+	margin-bottom: 0;
+	padding: .5em;
+}
+
+legend span {
+	float: left;
+}
+
+legend a.top {
+	float: right;
+	font-size: small;
+	font-weight: normal;
+	color: #666;
+	padding: .5em 0;
+}
+
+.field {
+	padding: 1em 0;
+}
+
+.field label {
+	display: block;
+	font-weight: normal;
+}
+
+.field input.text {
+	border: 1px solid #aaa;
+	padding: .25em;
+	width: 100%;
+	color: #000;
+}
+
+.field input.radio, .field input.checkbox {
+	margin: 0 1em 0 0;
+}
+
+.field select {
+	border: 1px solid #aaa;
+	background-color: #fff;
+	padding: .25em;
+	width: 100%;
+}
+
+.field select option {
+	background-color: #fff;
+}
+
+.buttons {
+	padding: .5em 0;
+	text-align: center;
+}
+
+.buttons input {
+	padding: 1em 3em;
+	font-weight: bold;
+}
+
+/* Form details */
+
+#form-navigation {
+	padding: 1.5em 0;
+	text-align: right;
+}
+
+#fieldset-container {
+	position: relative;
+}
+
+.field .currency {
+	position: relative;
+}
+
+.field .currency span.currency-symbol {
+	display: block;
+	position: absolute;
+	z-index: 100;
+	left: 0;
+	top: 0;
+	width: 2em;
+	padding: 2px 0;
+	text-align: center;
+	border: 1px solid #aaa;
+	font-weight: bold;
+	background-color: #eee;
+}
+
+.field .currency input.text {
+	display: block;
+	margin-left: 2.25em;
+	padding: 1px;
+	border: none;
+	outline: none;
+}
+
+.field .currency .ui-spinner {
+	width: 100%;
+}
+
+.field .currency .ui-spinner-input {
+	margin: 2px;
+	padding: 0;
+}
+
+#loan-amount-field input.text, #loan-amount-field span {
+	font-size: x-large;
+}
+
+#loan-amount-field input.text {
+	padding: 0;
+}
+
+.field .ui-buttonset .radio {
+	padding: 0;
+	margin: 0;
+	display: inline;
+}
+
+.field .ui-buttonset .ui-button {
+	display: inline-block;
+	width: auto;
+}
+
+ul#loan-summary {
+	display: block;
+	list-style: none;
+	margin: 1em 0 1em 1em;
+	padding: .5em;
+}
+
+ul#loan-summary li {
+	padding: .125em .25em;
+}
+
+/* Home page banner */
+
+.jumbotron {
+	position: relative;
+}
+
+.jumbotron a.cta {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.jumbotron a.cta strong {
+	display: block;
+	position: absolute;
+	top: 35px;
+	left: 50%;
+	width: 300px;
+	margin-left: -150px;
+	text-align: center;
+	font-size: xx-large;
+}
+
+.jumbotron .urge1 {
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 130px;
+	font-size: larger;
+}
+
+.jumbotron .urge2 {
+	display: block;
+	position: absolute;
+	top: 20px;
+	right: 50px;
+	font-size: larger;
+}
+
+.jumbotron .urge3 {
+	display: block;
+	position: absolute;
+	top: 5px;
+	left: 400px;
+}
+
+.jumbotron .urge4 {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 20px;
+	font-size: smaller;
+}
+
+.jumbotron .urge5 {
+	display: block;
+	position: absolute;
+	bottom: 10px;
+	right: 230px;
+}
+
+/* Utility */
+
+.no-fouc {
+	display: none;
+}
