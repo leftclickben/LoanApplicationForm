@@ -5,7 +5,7 @@ create table `applications` (
 	`token` char(32) not null,
 	`time_commenced` timestamp not null,
 	`time_submitted` datetime default null,
-	`loan_amount` int(11) default null,
+	`loan_amount` int(11) default 1000,
 	`australian_resident` tinyint(1) default null,
 	`medicare` tinyint(1) default null,
 	`loan_term_weeks` int(11) default null,

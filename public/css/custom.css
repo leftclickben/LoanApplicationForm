@@ -156,6 +156,16 @@ legend a.top {
 	padding: 0;
 }
 
+.field p.ui-state-error-text {
+	font-size: smaller;
+	margin-top: .5em;
+	padding: .25em;
+}
+
+.field p.ui-state-warning-text {
+	color: #a68f2b;
+}
+
 #loan-amount-field input.text, #loan-amount-field span {
 	font-size: x-large;
 }
@@ -183,7 +193,19 @@ ul#loan-summary {
 }
 
 ul#loan-summary li {
-	padding: .125em .25em;
+	padding: .25em;
+}
+
+.buttons #next-button {
+	display: block;
+	float: right;
+	margin: .5em;
+}
+
+.buttons #previous-button {
+	display: block;
+	float: left;
+	margin: .5em;
 }
 
 /* Home page banner */

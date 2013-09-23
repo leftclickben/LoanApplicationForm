@@ -85,12 +85,25 @@ $app->get('/apply/{id}/{token}', function ($id, $token) use ($app) {
 		$application[$child] = $app['db']->fetchAll($sql, $params);
 	}
 
-	// Remove all messages, start with an empty stream
-	$app['session']->set('messages', array());
+	// Perform initial validation
+	$validation = require_once('../schema/validation.php');
+	$messages = array();
+	foreach ($validation['entities'] as $entityKey => $entity) {
+		$messages[$entityKey] = array();
+		foreach ($entity as $fieldKey => $fieldValidator) {
+			$currentValue = $entityKey === 'application' ? $application[$fieldKey] : $application[$entityKey][0][$fieldKey];
+			if (!is_null($currentValue)) {
+				$messages[$entityKey][$fieldKey] = array(
+					'messages' => $fieldValidator($application, $currentValue)
+				);
+			}
+		}
+	}
 
 	// Render the page
 	return $app['twig']->render('application-form.twig', array(
-		'application' => $application
+		'application' => $application,
+		'messages' => $messages
 	));
 });
 

@@ -45,7 +45,7 @@
                             <div class="col-lg-6">
                                 <div class="field" id="loan-amount-field">
                                     <label for="application_loan_amount" class="question">How much would you like to borrow?</label>
-                                    <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="application[loan_amount]" id="application_loan_amount" class="dynamic text number ui-corner-all" min="100" max="2000" step="100" value="1000" /></div>
+                                    <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="application[loan_amount]" id="application_loan_amount" class="dynamic text number ui-corner-all" min="100" max="2000" step="100" value="{{ application.loan_amount }}" /></div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -54,14 +54,29 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="field">
+                                    <label for="application_loan_term_weeks" class="question">For what loan term?</label>
+                                    <div id="loan-term-radios">
+                                        <div class="radio">
+                                            <input type="radio" name="application[loan_term_weeks]" value="6" id="application_loan_term_weeks_6" class="dynamic radio" {% if (application.loan_term_weeks == 6) %}checked="checked"{% endif %} />
+                                            <label for="application_loan_term_weeks_6" class="radio-label">6 weeks</label>
+                                        </div>
+                                        <div class="radio">
+                                            <input type="radio" name="application[loan_term_weeks]" value="52" id="application_loan_term_weeks_52" class="dynamic radio" {% if (application.loan_term_weeks == 52) %}checked="checked"{% endif %} />
+                                            <label for="application_loan_term_weeks_52" class="radio-label">12 months</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="field">
                                     <label for="application_australian_resident" class="question">Are you an Australian resident?</label>
                                     <div id="australian-resident-radios">
                                         <div class="radio">
-                                            <input type="radio" name="application[australian_resident]" value="1" id="application_australian_resident_yes" class="dynamic radio" />
+                                            <input type="radio" name="application[australian_resident]" value="1" id="application_australian_resident_yes" class="dynamic radio" {% if (application.australian_resident == true) %}checked="checked"{% endif %} />
                                             <label for="application_australian_resident_yes" class="radio-label">Yes</label>
                                         </div>
                                         <div class="radio">
-                                            <input type="radio" name="application[australian_resident]" value="0" id="application_australian_resident_no" class="dynamic radio" />
+                                            <input type="radio" name="application[australian_resident]" value="0" id="application_australian_resident_no" class="dynamic radio" {% if (application.australian_resident == false and application.australian_resident != null) %}checked="checked"{% endif %} />
                                             <label for="application_australian_resident_no" class="radio-label">No</label>
                                         </div>
                                     </div>
@@ -72,27 +87,12 @@
                                     <label for="application_medicare]" class="question">Do you have Medicare?</label>
                                     <div id="medicare-radios">
                                         <div class="radio">
-                                            <input type="radio" name="application[medicare]" value="1" id="application_medicare_yes" class="dynamic radio" />
+                                            <input type="radio" name="application[medicare]" value="1" id="application_medicare_yes" class="dynamic radio" {% if (application.medicare == true) %}checked="checked"{% endif %} />
                                             <label for="application_medicare_yes" class="radio-label">Yes</label>
                                         </div>
                                         <div class="radio">
-                                            <input type="radio" name="application[medicare]" value="0" id="application_medicare_no" class="dynamic radio" />
+                                            <input type="radio" name="application[medicare]" value="0" id="application_medicare_no" class="dynamic radio" {% if (application.medicare == false and application.medicare != null) %}checked="checked"{% endif %} />
                                             <label for="application_medicare_no" class="radio-label">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="field">
-                                    <label for="application_loan_term_weeks" class="question">For what loan term?</label>
-                                    <div id="loan-term-radios">
-                                        <div class="radio">
-                                            <input type="radio" name="application[loan_term_weeks]" value="6" id="application_loan_term_weeks_6" class="dynamic radio" />
-                                            <label for="application_loan_term_weeks_6" class="radio-label">6 weeks</label>
-                                        </div>
-                                        <div class="radio">
-                                            <input type="radio" name="application[loan_term_weeks]" value="52" id="application_loan_term_weeks_52" class="dynamic radio" />
-                                            <label for="application_loan_term_weeks_52" class="radio-label">12 months</label>
                                         </div>
                                     </div>
                                 </div>
@@ -329,7 +329,7 @@
     <script>
         (function ($) {
             $(function () {
-				loans.setupApplicationForm('{{ app.request.baseUrl }}', '{{ application.id }}', '{{ application.token }}');
+				loans.setupApplicationForm('{{ app.request.baseUrl }}', '{{ application.id }}', '{{ application.token }}', {{ messages|json_encode|raw }});
            	});
         }(jQuery));
     </script>

@@ -10,7 +10,13 @@ return call_user_func(function () {
 				'out_of_range' => 'Loan amount must be between $100 and $2000'
 			),
 			'loan_term_weeks' => array(
-				'invalid' => 'Only Australian residents can apply for a 12 month loan'
+				'incompatible_with_australian_resident' => 'Only Australian residents can apply for a 12 month loan'
+			),
+			'australian_resident' => array(
+				'incompatible_with_loan_term_weeks' => 'Non-Australian residents can only apply for a 6 week loan'
+			),
+			'medicare' => array(
+				'warning-no' => 'If you do not have Medicare you can continue your application but you will need to complete an additional identity check before it can be approved'
 			)
 		),
 		'personal' => array(
@@ -78,20 +84,26 @@ return call_user_func(function () {
 	);
 
 	/**
-	 * Validation method to pass every time
+	 * Validation method to pass every time, with optional (warning) message
 	 *
 	 * @param $entity
 	 * @param $field
+	 * @param $messageLevel
+	 * @param $message
 	 *
 	 * @return array
 	 */
-	$pass = function($entity, $field) {
-		return array(
-			array(
-				'entity' => $entity,
-				'field' => $field
-			)
+	$pass = function($entity, $field, $messageLevel=null, $message=null) {
+		$result = array(
+			'entity' => $entity,
+			'field' => $field,
+			'valid' => true
 		);
+		if (!is_null($messageLevel) && !is_null($message)) {
+			$result['messageLevel'] = $messageLevel;
+			$result['message'] = $message;
+		}
+		return array( $result );
 	};
 
 	/**
@@ -111,6 +123,9 @@ return call_user_func(function () {
 		);
 		if (strlen($value) === 0) {
 			$result['message'] = $message;
+			$result['valid'] = false;
+		} else {
+			$result['valid'] = true;
 		}
 		return array( $result );
 	};
@@ -134,8 +149,11 @@ return call_user_func(function () {
 		);
 		if ($value < $min || $value > $max) {
 			$result['message'] = $message;
+			$result['valid'] = false;
+		} else {
+			$result['valid'] = true;
 		}
-		return $result;
+		return array( $result );
 	};
 
 	/**
@@ -157,6 +175,9 @@ return call_user_func(function () {
 		);
 		if (($required || strlen($value) > 0) && !preg_match($pattern, $value)) {
 			$result['message'] = $message;
+			$result['valid'] = false;
+		} else {
+			$result['valid'] = true;
 		}
 		return array( $result );
 	};
@@ -165,127 +186,155 @@ return call_user_func(function () {
 	 * Validation data structure
 	 */
 	return array(
+		'combinedResult' => function($result, $message) {
+			return ($result = $result && isset($message['valid']) && $message['valid']);
+		},
 		'default' => function($application, $value, $entity, $field) use ($pass) {
 			return $pass($entity, $field);
 		},
-		'application' => array(
-			// TODO Validate number format
-			'loan_amount' => function($application, $value) use ($messages, $range) {
-				return $range('application', 'loan_amount', $value, 100, 2000, $messages['application']['loan_amount']['out_of_range']);
-			},
-			'australian_resident' => function($application, $value) use ($messages) {
-				if ($value || $application['loan_term_weeks'] !== 6) {
-					$result = array(
-						array(
-							'entity' => 'application',
-							'field' => 'australian_resident'
-						)
-					);
-					if (!empty($application['loan_term_weeks'])) {
-						$result[] = array(
-							'entity' => 'application',
-							'field' => 'loan_term_weeks'
+		'entities' => array(
+			'application' => array(
+				// TODO Validate number format
+				'loan_amount' => function($application, $value) use ($messages, $range) {
+					return $range('application', 'loan_amount', $value, 100, 2000, $messages['application']['loan_amount']['out_of_range']);
+				},
+				'loan_term_weeks' => function($application, $value) use ($messages) {
+					if (!is_null($application['australian_resident']) && !$application['australian_resident'] && intval($value) === 52) {
+						$result = array(
+							array(
+								'entity' => 'application',
+								'field' => 'loan_term_weeks',
+								'message' => $messages['application']['loan_term_weeks']['incompatible_with_australian_resident'],
+								'valid' => false
+							),
+							array(
+								'entity' => 'application',
+								'field' => 'australian_resident',
+								'message' => $messages['application']['australian_resident']['incompatible_with_loan_term_weeks'],
+								'valid' => false
+							)
 						);
+					} else {
+						$result = array(
+							array(
+								'entity' => 'application',
+								'field' => 'loan_term_weeks',
+								'valid' => true
+							)
+						);
+						if (!is_null($application['australian_resident'])) {
+							$result[] = array(
+								'entity' => 'application',
+								'field' => 'australian_resident',
+								'valid' => true
+							);
+						}
 					}
 					return $result;
-				} else {
-					return array(
-						array(
-							'entity' => 'application',
-							'field' => 'loan_term_weeks',
-							'message' => $messages['application']['loan_term_weeks']['invalid']
-						)
-					);
+				},
+				'australian_resident' => function($application, $value) use ($messages) {
+					if (!is_null($value) && !$value && intval($application['loan_term_weeks']) === 52) {
+						$result = array(
+							array(
+								'entity' => 'application',
+								'field' => 'loan_term_weeks',
+								'message' => $messages['application']['loan_term_weeks']['incompatible_with_australian_resident'],
+								'valid' => false
+							),
+							array(
+								'entity' => 'application',
+								'field' => 'australian_resident',
+								'message' => $messages['application']['australian_resident']['incompatible_with_loan_term_weeks'],
+								'valid' => false
+							)
+						);
+					} else {
+						$result = array(
+							array(
+								'entity' => 'application',
+								'field' => 'australian_resident',
+								'valid' => true
+							)
+						);
+						if (!is_null($application['loan_term_weeks'])) {
+							$result[] = array(
+								'entity' => 'application',
+								'field' => 'loan_term_weeks',
+								'valid' => true
+							);
+						}
+					}
+					return $result;
+				},
+				'medicare' => function($application, $value) use ($messages, $pass) {
+					return $value ?
+							$pass('application', 'medicare') :
+							$pass('application', 'medicare', 'warning', $messages['application']['medicare']['warning-no']);
 				}
-			},
-			'medicare' => function($application, $value) use ($pass) {
-				return $pass('application', 'medicare');
-			},
-			'loan_term_weeks' => function($application, $value) use ($messages) {
-				if ($application['australian_resident'] || $value === '6') {
-					return array(
-						array(
-							'entity' => 'application',
-							'field' => 'australian_resident'
-						),
-						array(
-							'entity' => 'application',
-							'field' => 'loan_term_weeks'
-						)
-					);
-				} else {
-					return array(
-						array(
-							'entity' => 'application',
-							'field' => 'loan_term_weeks',
-							'message' => $messages['application']['loan_term_weeks']['invalid']
-						)
-					);
+			),
+			'personal' => array(
+				'first_name' => function($application, $value) use ($messages, $required) {
+					return $required('personal', 'first_name', $value, $messages['personal']['first_name']['required']);
+				},
+				'middle_name' => function($application, $value) use ($pass) {
+					return $pass('personal', 'middle_name');
+				},
+				'last_name' => function($application, $value) use ($messages, $required) {
+					return $required('personal', 'last_name', $value, $messages['personal']['last_name']['required']);
+				},
+				// TODO Validate date format
+				'date_of_birth' => function($application, $value) use ($messages, $required) {
+					return $required('personal', 'date_of_birth', $value, $messages['personal']['date_of_birth']['required']);
+				},
+				'email' => function($application, $value) use ($messages, $regexPatterns, $match) {
+					return $match('personal', 'email', $value, $regexPatterns['email'], true, $messages['personal']['email']['match']);
+				},
+				'phone_primary' => function($application, $value) use ($messages, $regexPatterns, $match) {
+					return $match('personal', 'phone_primary', $value, $regexPatterns['phone'], true, $messages['personal']['phone_primary']['match']);
+				},
+				'phone_secondary' => function($application, $value) use ($messages, $regexPatterns, $match) {
+					return $match('personal', 'phone_secondary', $value, $regexPatterns['phone'], false, $messages['personal']['phone_secondary']['match']);
 				}
-			}
-		),
-		'personal' => array(
-			'first_name' => function($application, $value) use ($messages, $required) {
-				return $required('personal', 'first_name', $value, $messages['personal']['first_name']['required']);
-			},
-			'middle_name' => function($application, $value) use ($pass) {
-				return $pass('personal', 'middle_name');
-			},
-			'last_name' => function($application, $value) use ($messages, $required) {
-				return $required('personal', 'last_name', $value, $messages['personal']['last_name']['required']);
-			},
-			// TODO Validate date format
-			'date_of_birth' => function($application, $value) use ($messages, $required) {
-				return $required('personal', 'date_of_birth', $value, $messages['personal']['date_of_birth']['required']);
-			},
-			'email' => function($application, $value) use ($messages, $regexPatterns, $match) {
-				return $match('personal', 'email', $value, $regexPatterns['email'], true, $messages['personal']['email']['match']);
-			},
-			'phone_primary' => function($application, $value) use ($messages, $regexPatterns, $match) {
-				return $match('personal', 'phone_primary', $value, $regexPatterns['phone'], true, $messages['personal']['phone_primary']['match']);
-			},
-			'phone_secondary' => function($application, $value) use ($messages, $regexPatterns, $match) {
-				return $match('personal', 'phone_secondary', $value, $regexPatterns['phone'], false, $messages['personal']['phone_secondary']['match']);
-			}
-		),
-		'address' => array(
-			'address_line1' => function($application, $value) use ($messages, $required) {
-				return $required('address', 'address_line1', $value, $messages['address']['address_line1']['required']);
-			},
-			'address_line2' => function($application, $value) use ($messages, $pass) {
-				return $pass('address', 'address_line2');
-			},
-			'suburb' => function($application, $value) use ($messages, $required) {
-				return $required('address', 'suburb', $value, $messages['address']['suburb']['required']);
-			},
-			'postcode' => function($application, $value) use ($messages, $required) {
-				return $required('address', 'postcode', $value, $messages['address']['postcode']['required']);
-			},
-			'state' => function($application, $value) use ($messages, $required) {
-				return $required('address', 'state', $value, $messages['address']['state']['required']);
-			},
-			// TODO Validate number format
-			'duration_months' => function($application, $value) use ($messages, $required) {
-				return $required('address', 'duration_months', $value, $messages['address']['duration_months']['required']);
-			},
-		),
-		'income' => array(
-			'type' => function($application, $value) use ($messages, $required) {
-				return $required('income', 'type', $value, $messages['income']['type']['required']);
-			},
-			// TODO Validate number format
-			'amount' => function($application, $value) use ($messages, $required) {
-				return $required('income', 'amount', $value, $messages['income']['amount']['required']);
-			},
-			'period' => function($application, $value) use ($messages, $required) {
-				return $required('income', 'period', $value, $messages['income']['period']['required']);
-			},
-			'duration_months' => function($application, $value) use ($messages, $required) {
-				return $required('income', 'duration_months', $value, $messages['income']['duration_months']['required']);
-			},
-			'description' => function($application, $value) use ($messages, $required) {
-				return $required('income', 'description', $value, $messages['income']['description']['required']);
-			},
+			),
+			'address' => array(
+				'address_line1' => function($application, $value) use ($messages, $required) {
+					return $required('address', 'address_line1', $value, $messages['address']['address_line1']['required']);
+				},
+				'address_line2' => function($application, $value) use ($messages, $pass) {
+					return $pass('address', 'address_line2');
+				},
+				'suburb' => function($application, $value) use ($messages, $required) {
+					return $required('address', 'suburb', $value, $messages['address']['suburb']['required']);
+				},
+				'postcode' => function($application, $value) use ($messages, $required) {
+					return $required('address', 'postcode', $value, $messages['address']['postcode']['required']);
+				},
+				'state' => function($application, $value) use ($messages, $required) {
+					return $required('address', 'state', $value, $messages['address']['state']['required']);
+				},
+				// TODO Validate number format
+				'duration_months' => function($application, $value) use ($messages, $required) {
+					return $required('address', 'duration_months', $value, $messages['address']['duration_months']['required']);
+				},
+			),
+			'income' => array(
+				'type' => function($application, $value) use ($messages, $required) {
+					return $required('income', 'type', $value, $messages['income']['type']['required']);
+				},
+				// TODO Validate number format
+				'amount' => function($application, $value) use ($messages, $required) {
+					return $required('income', 'amount', $value, $messages['income']['amount']['required']);
+				},
+				'period' => function($application, $value) use ($messages, $required) {
+					return $required('income', 'period', $value, $messages['income']['period']['required']);
+				},
+				'duration_months' => function($application, $value) use ($messages, $required) {
+					return $required('income', 'duration_months', $value, $messages['income']['duration_months']['required']);
+				},
+				'description' => function($application, $value) use ($messages, $required) {
+					return $required('income', 'description', $value, $messages['income']['description']['required']);
+				},
+			)
 		)
 	);
 });
