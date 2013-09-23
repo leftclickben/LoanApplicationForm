@@ -174,29 +174,32 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="field">
-                            <label for="address_line1" class="question">What is the street address?</label>
-                            <input type="text" name="address_line1" id="address_line1" class="dynamic text ui-corner-all" />
-                            <input type="text" name="address_line2" id="address_line2" class="dynamic text ui-corner-all" />
+                            <label for="address_address_line1" class="question">What is the street address?</label>
+                            <input type="text" name="address[address_line1]" id="address_address_line1" class="dynamic text ui-corner-all" />
+						</div>
+						<div class="field">
+							<label for="address_address_line2"></label>
+                            <input type="text" name="address[address_line2]" id="address_address_line2" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="field">
-                            <label for="suburb" class="question">Suburb</label>
-                            <input type="text" name="suburb" id="suburb" class="dynamic text ui-corner-all" />
+                            <label for="address_suburb" class="question">Suburb</label>
+                            <input type="text" name="address[suburb]" id="address_suburb" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="field">
-                            <label for="postcode" class="question">Postcode</label>
-                            <input type="text" name="postcode" id="postcode" class="dynamic text digits ui-corner-all" />
+                            <label for="address_postcode" class="question">Postcode</label>
+                            <input type="text" name="address[postcode]" id="address_postcode" class="dynamic text digits ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="state" class="question">State</label>
-                            <select name="state" id="state" class="dynamic ui-corner-all">
+                            <label for="address_state" class="question">State</label>
+                            <select name="address[state]" id="address_state" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="ACT">Australian Capital Territory</option>
                                 <option value="NSW">New South Wales</option>
@@ -211,8 +214,8 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="duration_months" class="question">How long have you lived here?</label>
-                            <select name="duration_months" id="duration_months" class="dynamic ui-corner-all">
+                            <label for="address_duration_months" class="question">How long have you lived here?</label>
+                            <select name="address[duration_months]" id="address_duration_months" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="1">1 month</option>
                                 <option value="2">2 months</option>
@@ -235,10 +238,10 @@
                     <a href="#" class="top">&uArr; Back to top</a>
                 </legend>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="field">
-                            <label for="type" class="question">What type of income do you receive?</label>
-                            <select name="type" id="type" class="dynamic ui-corner-all">
+                            <label for="income_type" class="question">What type of income do you receive?</label>
+                            <select name="income[type]" id="income_type" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="C">Contractor</option>
                                 <option value="T">Temporary Employee</option>
@@ -248,16 +251,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="field">
-                            <label for="amount" class="question">How much are you paid?</label>
-                            <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="amount" id="amount" class="dynamic text number ui-corner-all" min="0" max="20000" step="100" value="0" /></div>
+                            <label for="income_amount" class="question">How much are you paid?</label>
+                            <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="income[amount]" id="income_amount" class="dynamic text number ui-corner-all" min="0" max="20000" step="100" value="0" /></div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="period" class="question">How often do you receive this payment?</label>
-                            <select name="period" id="period" class="dynamic ui-corner-all">
+                            <label for="income_period" class="question">How often are you paid?</label>
+                            <select name="income[period]" id="income_period" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="W">Weekly</option>
                                 <option value="F">Fortnightly</option>
@@ -267,8 +270,8 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="duration_months" class="question">How long have you had this income?</label>
-                            <select name="duration_months" id="duration_months" class="dynamic ui-corner-all">
+                            <label for="income_duration_months" class="question">How long have you had this income?</label>
+                            <select name="income[duration_months]" id="income_duration_months" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="1">1 month</option>
                                 <option value="2">2 months</option>
@@ -287,8 +290,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="field">
-                            <label for="description" class="question">Please give your job title or type of benefits</label>
-                            <input type="text" name="description" id="description" class="dynamic text ui-corner-all" />
+                            <label for="income_description" class="question">Please give your job title or type of benefits</label>
+                            <input type="text" name="income[description]" id="income_description" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                 </div>
@@ -303,12 +306,12 @@
                         <div class="field">
                             <label for="" class="question">Please confirm your intention to apply for this loan</label>
                             <div class="checkbox">
-                                <input type="checkbox" name="accepted_terms" id="accepted_terms" class="checkbox" />
-                                <label for="accepted_terms">I have read and understood the <a href="{{ app.request.baseUrl }}/terms">terms and conditions</a> of this loan application</label>
+                                <input type="checkbox" name="application[accepted_terms]" id="application_accepted_terms" class="checkbox" />
+                                <label for="application_accepted_terms">I have read and understood the <a href="{{ app.request.baseUrl }}/terms">terms and conditions</a> of this loan application</label>
                             </div>
                             <div class="checkbox">
-                                <input type="checkbox" name="accepted_marketing" id="accepted_marketing" class="checkbox" />
-                                <label for="accepted_marketing">I wish to receive marketing material such as competitions, promotions, events and new products</label>
+                                <input type="checkbox" name="application[accepted_marketing]" id="application_accepted_marketing" class="checkbox" />
+                                <label for="application_accepted_marketing">I wish to receive marketing material such as competitions, promotions, events and new products</label>
                             </div>
                         </div>
                     </div>
