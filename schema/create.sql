@@ -7,6 +7,7 @@ create table `applications` (
 	`time_submitted` datetime default null,
 	`loan_amount` int(11) default null,
 	`australian_resident` tinyint(1) default null,
+	`medicare` tinyint(1) default null,
 	`loan_term_weeks` int(11) default null,
 	`accepted_warning` tinyint(1) default null,
 	`accepted_terms` tinyint(1) default null,

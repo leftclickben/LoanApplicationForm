@@ -62,19 +62,35 @@ $app->get('/apply', function () use ($app) {
 /**
  * Display a loan application form for the application with the given id.
  *
+ * TODO Detect application in progress and allow continuation
+ *
  * {id} is the application id
  * {token} is the application token for verification
  */
 $app->get('/apply/{id}/{token}', function ($id, $token) use ($app) {
-	if (!intval($app['db']->fetchColumn('select count(*) as valid from applications where id = ? and token = ?', array( $id, $token ), 0))) {
+	// Get the parent application record
+	$sql = 'select * from applications where id = ? and token = ?';
+	$params = array( $id, $token );
+	$application = $app['db']->fetchAssoc($sql, $params);
+
+	// Validate the token
+	if (empty($application) || !intval($application['id']) || intval($id) !== intval($application['id'])) {
 		throw new Exception('Token mismatch');
 	}
-//	$app['session']->set('application_in_progress', array( 'id' => $id, 'token' => $token )); TODO Use this for detecting application in progress and allowing continuation
+
+	// Get the child details records
+	foreach (array( 'personal', 'address', 'income' ) as $child) {
+		$sql = 'select d.* from ' . $child . '_details d inner join application_' . $child . '_details ad on (d.id = ad.' . $child . '_details_id) where ad.application_id = ?';
+		$params = array( $id );
+		$application[$child] = $app['db']->fetchAll($sql, $params);
+	}
+
+	// Remove all messages, start with an empty stream
+	$app['session']->set('messages', array());
+
+	// Render the page
 	return $app['twig']->render('application-form.twig', array(
-		'application' => array(
-			'id' => $id,
-			'token' => $token
-		)
+		'application' => $application
 	));
 });
 

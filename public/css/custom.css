@@ -67,6 +67,39 @@ legend a.top {
 	background-color: #fff;
 }
 
+/* These override the jQuery UI defaults, we don't want all that highlighting stuff */
+.field label.question, .field label.question.ui-state-highlight, .field label.question.ui-state-error, .field label.question.ui-state-processing {
+	margin: 0.5em 0;
+	padding: 0;
+	border: none;
+	background: transparent;
+}
+
+/* Hide icons before question is answered */
+.field label.question ins {
+	display: none;
+}
+
+/* Icons representing dynamic submission status feedback */
+.field label.question.ui-state-highlight ins, .field label.question.ui-state-error ins {
+	display: inline-block;
+	color: #0a0;
+	margin-left: .25em;
+	vertical-align: top;
+}
+
+.field label.question.ui-state-processing {
+	color: #aaa;
+}
+
+.field label.question.ui-state-highlight {
+	color: inherit;
+}
+
+.field label.question.ui-state-error {
+	color: #a00;
+}
+
 .buttons {
 	padding: .5em 0;
 	text-align: center;

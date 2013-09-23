@@ -1,9 +1,9 @@
 {% extends '_master.twig' %}
 
 {% block navbar %}
-    {% embed '_navbar.twig' %}
-        {% block navActiveApply %}class="active"{% endblock %}
-    {% endembed %}
+{% embed '_navbar.twig' %}
+{% block navActiveApply %}class="active"{% endblock %}
+{% endembed %}
 {% endblock %}
 
 {% block main %}
@@ -44,8 +44,8 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="field" id="loan-amount-field">
-                                    <label for="loan_amount">How much would you like to borrow?</label>
-                                    <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="application[loan_amount]" id="application_loan_amount" class="text number ui-corner-all" min="100" max="2000" step="100" value="1000" /></div>
+                                    <label for="application_loan_amount" class="question">How much would you like to borrow?</label>
+                                    <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="application[loan_amount]" id="application_loan_amount" class="dynamic text number ui-corner-all" min="100" max="2000" step="100" value="1000" /></div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -54,14 +54,14 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="field">
-                                    <label for="application[australian_resident]">Are you an Australian resident?</label>
+                                    <label for="application_australian_resident" class="question">Are you an Australian resident?</label>
                                     <div id="australian-resident-radios">
                                         <div class="radio">
-                                            <input type="radio" name="application[australian_resident]" id="application_australian_resident_yes" class="radio" checked="checked" />
+                                            <input type="radio" name="application[australian_resident]" value="1" id="application_australian_resident_yes" class="dynamic radio" />
                                             <label for="application_australian_resident_yes" class="radio-label">Yes</label>
                                         </div>
                                         <div class="radio">
-                                            <input type="radio" name="application[australian_resident]" id="application_australian_resident_no" class="radio" />
+                                            <input type="radio" name="application[australian_resident]" value="0" id="application_australian_resident_no" class="dynamic radio" />
                                             <label for="application_australian_resident_no" class="radio-label">No</label>
                                         </div>
                                     </div>
@@ -69,14 +69,14 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="field">
-                                    <label for="application[loan_term]">Do you have Medicare?</label>
+                                    <label for="application_medicare]" class="question">Do you have Medicare?</label>
                                     <div id="medicare-radios">
                                         <div class="radio">
-                                            <input type="radio" name="application[medicare]" id="application_medicare_yes" class="radio" checked="checked" />
+                                            <input type="radio" name="application[medicare]" value="1" id="application_medicare_yes" class="dynamic radio" />
                                             <label for="application_medicare_yes" class="radio-label">Yes</label>
                                         </div>
                                         <div class="radio">
-                                            <input type="radio" name="application[medicare]" id="application_medicare_no" class="radio" />
+                                            <input type="radio" name="application[medicare]" value="0" id="application_medicare_no" class="dynamic radio" />
                                             <label for="application_medicare_no" class="radio-label">No</label>
                                         </div>
                                     </div>
@@ -84,15 +84,15 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="field">
-                                    <label for="application[loan_term]">For what loan term?</label>
+                                    <label for="application_loan_term_weeks" class="question">For what loan term?</label>
                                     <div id="loan-term-radios">
                                         <div class="radio">
-                                            <input type="radio" name="application[loan_term]" id="application_loan_term_6" class="radio" checked="checked" />
-                                            <label for="application_loan_term_6" class="radio-label">6 weeks</label>
+                                            <input type="radio" name="application[loan_term_weeks]" value="6" id="application_loan_term_weeks_6" class="dynamic radio" />
+                                            <label for="application_loan_term_weeks_6" class="radio-label">6 weeks</label>
                                         </div>
                                         <div class="radio">
-                                            <input type="radio" name="application[loan_term]" id="application_loan_term_52" class="radio" />
-                                            <label for="application_loan_term_52" class="radio-label">12 months</label>
+                                            <input type="radio" name="application[loan_term_weeks]" value="52" id="application_loan_term_weeks_52" class="dynamic radio" />
+                                            <label for="application_loan_term_weeks_52" class="radio-label">12 months</label>
                                         </div>
                                     </div>
                                 </div>
@@ -120,48 +120,48 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="field">
-                            <label for="first_name">What is your first given name (personal name)?</label>
-                            <input type="text" name="first_name" id="first_name" class="text ui-corner-all" />
+                            <label for="personal_first_name" class="question">What is your first given name (personal name)?</label>
+                            <input type="text" name="personal[first_name]" id="personal_first_name" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="field">
-                            <label for="middle_name">What are your other given names (middle names)?</label>
-                            <input type="text" name="middle_name" id="middle_name" class="text ui-corner-all" />
+                            <label for="personal_middle_name" class="question">What are your other given names (middle names)?</label>
+                            <input type="text" name="personal[middle_name]" id="personal_middle_name" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="field">
-                            <label for="last_name">What is your surname (family name)?</label>
-                            <input type="text" name="last_name" id="last_name" class="text ui-corner-all" />
+                            <label for="personal_last_name" class="question">What is your surname (family name)?</label>
+                            <input type="text" name="personal[last_name]" id="personal_last_name" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="field">
-                            <label for="date_of_birth">What is your date of birth?</label>
-                            <input type="text" name="date_of_birth" id="date_of_birth" class="text date ui-corner-all" />
+                            <label for="personal_date_of_birth" class="question">What is your date of birth?</label>
+                            <input type="text" name="personal[date_of_birth]" id="personal_date_of_birth" class="dynamic text date ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="field">
-                            <label for="email">What is your email address?</label>
-                            <input type="email" name="email" id="email" class="text email ui-corner-all" />
+                            <label for="personal_email" class="question">What is your email address?</label>
+                            <input type="email" name="personal[email]" id="personal_email" class="dynamic text email ui-corner-all" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="field">
-                            <label for="phone_primary">What is your primary phone number?</label>
-                            <input type="tel" name="phone_primary" id="phone_primary" class="text phone tel ui-corner-all" />
+                            <label for="personal_phone_primary" class="question">What is your primary phone number?</label>
+                            <input type="tel" name="personal[phone_primary]" id="personal_phone_primary" class="dynamic text phone tel ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="field">
-                            <label for="phone_secondary">Please provide a secondary phone number?</label>
-                            <input type="tel" name="phone_secondary" id="phone_secondary" class="text phone tel ui-corner-all" />
+                            <label for="personal_phone_secondary" class="question">Please provide a secondary phone number?</label>
+                            <input type="tel" name="personal[phone_secondary]" id="personal_phone_secondary" class="dynamic text phone tel ui-corner-all" />
                         </div>
                     </div>
                 </div>
@@ -174,30 +174,29 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="field">
-                            <label for="address_line1">What is the street address?</label>
-                            <input type="text" name="address_line1" id="address_line1" class="text ui-corner-all" />
-                            <label for="address_line2"></label>
-                            <input type="text" name="address_line2" id="address_line2" class="text ui-corner-all" />
+                            <label for="address_line1" class="question">What is the street address?</label>
+                            <input type="text" name="address_line1" id="address_line1" class="dynamic text ui-corner-all" />
+                            <input type="text" name="address_line2" id="address_line2" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="field">
-                            <label for="suburb">Suburb</label>
-                            <input type="text" name="suburb" id="suburb" class="text ui-corner-all" />
+                            <label for="suburb" class="question">Suburb</label>
+                            <input type="text" name="suburb" id="suburb" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="field">
-                            <label for="postcode">Postcode</label>
-                            <input type="text" name="postcode" id="postcode" class="text digits ui-corner-all" />
+                            <label for="postcode" class="question">Postcode</label>
+                            <input type="text" name="postcode" id="postcode" class="dynamic text digits ui-corner-all" />
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="state">State</label>
-                            <select name="state" id="state" class="ui-corner-all">
+                            <label for="state" class="question">State</label>
+                            <select name="state" id="state" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="ACT">Australian Capital Territory</option>
                                 <option value="NSW">New South Wales</option>
@@ -212,8 +211,8 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="duration_months">How long have you lived here?</label>
-                            <select name="duration_months" id="duration_months" class="ui-corner-all">
+                            <label for="duration_months" class="question">How long have you lived here?</label>
+                            <select name="duration_months" id="duration_months" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="1">1 month</option>
                                 <option value="2">2 months</option>
@@ -238,8 +237,8 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="field">
-                            <label for="type">What type of income do you receive?</label>
-                            <select name="type" id="type" class="ui-corner-all">
+                            <label for="type" class="question">What type of income do you receive?</label>
+                            <select name="type" id="type" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="C">Contractor</option>
                                 <option value="T">Temporary Employee</option>
@@ -251,14 +250,14 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="field">
-                            <label for="amount">How much are you paid?</label>
-                            <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="amount" id="amount" class="text number ui-corner-all" min="0" max="20000" step="100" value="0" /></div>
+                            <label for="amount" class="question">How much are you paid?</label>
+                            <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="amount" id="amount" class="dynamic text number ui-corner-all" min="0" max="20000" step="100" value="0" /></div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="period">How often do you receive this payment?</label>
-                            <select name="period" id="period" class="ui-corner-all">
+                            <label for="period" class="question">How often do you receive this payment?</label>
+                            <select name="period" id="period" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="W">Weekly</option>
                                 <option value="F">Fortnightly</option>
@@ -268,8 +267,8 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
-                            <label for="duration_months">How long have you had this income?</label>
-                            <select name="duration_months" id="duration_months" class="ui-corner-all">
+                            <label for="duration_months" class="question">How long have you had this income?</label>
+                            <select name="duration_months" id="duration_months" class="dynamic ui-corner-all">
                                 <option value=""></option>
                                 <option value="1">1 month</option>
                                 <option value="2">2 months</option>
@@ -288,8 +287,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="field">
-                            <label for="description">Please give your job title or type of benefits</label>
-                            <input type="text" name="description" id="description" class="text ui-corner-all" />
+                            <label for="description" class="question">Please give your job title or type of benefits</label>
+                            <input type="text" name="description" id="description" class="dynamic text ui-corner-all" />
                         </div>
                     </div>
                 </div>
@@ -302,7 +301,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="field">
-                            <label for="">Please confirm your intention to apply for this loan</label>
+                            <label for="" class="question">Please confirm your intention to apply for this loan</label>
                             <div class="checkbox">
                                 <input type="checkbox" name="accepted_terms" id="accepted_terms" class="checkbox" />
                                 <label for="accepted_terms">I have read and understood the <a href="{{ app.request.baseUrl }}/terms">terms and conditions</a> of this loan application</label>
@@ -327,7 +326,7 @@
     <script>
         (function ($) {
             $(function () {
-                loans.setupApplicationForm();
+				loans.setupApplicationForm('{{ app.request.baseUrl }}', '{{ application.id }}', '{{ application.token }}');
            	});
         }(jQuery));
     </script>

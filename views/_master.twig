@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.png">
-    <title>Dodgy John's Easy Loans | Cash Loans, Payday Loans, Short Term Loans | Nothin' Suss</title>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="{{ app.request.baseUrl }}/css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
-    <link href="{{ app.request.baseUrl }}/css/custom.css" rel="stylesheet" />
-    <!--[if lt IE 9]>
-      <link href="{{ app.request.baseUrl }}/css/custom-theme/jquery-ui-1.10.0.ie.css" rel="stylesheet" />
-      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <nav>
-      {% block navbar %}
-        {% embed '_navbar.twig' %}{% endembed %}
-      {% endblock %}
-    </nav>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="{{ app.request.baseUrl }}/favicon.ico">
+<title>Dodgy John's Easy Loans | Cash Loans, Payday Loans, Short Term Loans | Nothin' Suss</title>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="{{ app.request.baseUrl }}/css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+<link href="{{ app.request.baseUrl }}/css/custom.css" rel="stylesheet" />
+<!--[if lt IE 9]>
+<link href="{{ app.request.baseUrl }}/css/custom-theme/jquery-ui-1.10.0.ie.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.js"></script>
+<![endif]-->
+</head>
+<body>
+{# Navigation #}
+<nav>
+{% block navbar %}
+{% embed '_navbar.twig' %}{% endembed %}
+{% endblock %}
+</nav>
 
-    <div class="container">
-      <header>
-        {% block cta %}{% endblock %}
-      </header>
-      <article>
-        {% block main %}{% endblock %}
-      </article>
-    </div>
+{# Main Content #}
+<div class="container">
+	<header>
+{% block cta %}{% endblock %}
+	</header>
+	<article>
+{% block main %}{% endblock %}
+	</article>
+</div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script src="{{ app.request.baseUrl }}/js/loans.js"></script>
-    {% block script %}{% endblock %}
-    <script>
-        (function ($) {
-            $(function () {
-                loans.preventFouc();
-           	});
-        }(jQuery));
-    </script>
-  </body>
+{# Scripts #}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
+<script src="{{ app.request.baseUrl }}/js/loans.js"></script>
+{% block script %}{% endblock %}
+<script>
+(function ($) {
+	$(function () {
+		loans.preventFlashOfUnstyledContent();
+	});
+}(jQuery));
+</script>
+	</body>
 </html>
