@@ -186,10 +186,9 @@ var loans = (function ($) {
 
 			// Setup form navigation buttons
             $formNavigationButtons.filter(':first-child').attr('checked', true);
-//			$formNavigationButtons.not(':first-child').attr('disabled', true);
             $formNavigation.buttonset().find('label').click(function () {
-                var step = parseInt($(this).attr('for').replace(/^form\-navigation\-/, ''), 10);
-				navigateToStep(step);
+				navigateToStep(parseInt($(this).attr('for').replace(/^form\-navigation\-/, ''), 10));
+				updateFormNavigation($formNavigationButtons, $previousButton, $nextButton);
             });
 			$('form .buttons')
 				.append($previousButton.attr({ id: 'previous-button' }).button().click(function (e) {
