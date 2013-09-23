@@ -144,7 +144,7 @@ legend a.top {
 	margin-left: 2.25em;
 	padding: 1px;
 	border: none;
-	outline: none;
+	box-shadow: none;
 }
 
 .field .currency .ui-spinner {
