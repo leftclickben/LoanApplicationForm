@@ -121,19 +121,19 @@
                     <div class="col-lg-4">
                         <div class="field">
                             <label for="personal_first_name" class="question">What is your first given name (personal name)?</label>
-                            <input type="text" name="personal[first_name]" id="personal_first_name" class="dynamic text ui-corner-all" />
+                            <input type="text" name="personal[first_name]" id="personal_first_name" class="dynamic text ui-corner-all" value="{{ application.personal[0].first_name }}" />
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="field">
                             <label for="personal_middle_name" class="question">What are your other given names (middle names)?</label>
-                            <input type="text" name="personal[middle_name]" id="personal_middle_name" class="dynamic text ui-corner-all" />
+                            <input type="text" name="personal[middle_name]" id="personal_middle_name" class="dynamic text ui-corner-all" value="{{ application.personal[0].middle_name }}" />
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="field">
                             <label for="personal_last_name" class="question">What is your surname (family name)?</label>
-                            <input type="text" name="personal[last_name]" id="personal_last_name" class="dynamic text ui-corner-all" />
+                            <input type="text" name="personal[last_name]" id="personal_last_name" class="dynamic text ui-corner-all" value="{{ application.personal[0].last_name }}" />
                         </div>
                     </div>
                 </div>
@@ -141,13 +141,13 @@
                     <div class="col-lg-6">
                         <div class="field">
                             <label for="personal_date_of_birth" class="question">What is your date of birth?</label>
-                            <input type="text" name="personal[date_of_birth]" id="personal_date_of_birth" class="dynamic text date ui-corner-all" />
+                            <input type="text" name="personal[date_of_birth]" id="personal_date_of_birth" class="dynamic text date ui-corner-all" value="{{ application.personal[0].date_of_birth }}" />
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="field">
                             <label for="personal_email" class="question">What is your email address?</label>
-                            <input type="email" name="personal[email]" id="personal_email" class="dynamic text email ui-corner-all" />
+                            <input type="email" name="personal[email]" id="personal_email" class="dynamic text email ui-corner-all" value="{{ application.personal[0].email }}" />
                         </div>
                     </div>
                 </div>
@@ -155,13 +155,13 @@
                     <div class="col-lg-6">
                         <div class="field">
                             <label for="personal_phone_primary" class="question">What is your primary phone number?</label>
-                            <input type="tel" name="personal[phone_primary]" id="personal_phone_primary" class="dynamic text phone tel ui-corner-all" />
+                            <input type="tel" name="personal[phone_primary]" id="personal_phone_primary" class="dynamic text phone tel ui-corner-all" value="{{ application.personal[0].phone_primary }}" />
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="field">
                             <label for="personal_phone_secondary" class="question">Please provide a secondary phone number?</label>
-                            <input type="tel" name="personal[phone_secondary]" id="personal_phone_secondary" class="dynamic text phone tel ui-corner-all" />
+                            <input type="tel" name="personal[phone_secondary]" id="personal_phone_secondary" class="dynamic text phone tel ui-corner-all" value="{{ application.personal[0].phone_secondary }}" />
                         </div>
                     </div>
                 </div>
@@ -175,11 +175,11 @@
                     <div class="col-lg-12">
                         <div class="field">
                             <label for="address_address_line1" class="question">What is the street address?</label>
-                            <input type="text" name="address[address_line1]" id="address_address_line1" class="dynamic text ui-corner-all" />
+                            <input type="text" name="address[address_line1]" id="address_address_line1" class="dynamic text ui-corner-all" value="{{ application.address[0].address_line1 }}" />
 						</div>
 						<div class="field">
 							<label for="address_address_line2"></label>
-                            <input type="text" name="address[address_line2]" id="address_address_line2" class="dynamic text ui-corner-all" />
+                            <input type="text" name="address[address_line2]" id="address_address_line2" class="dynamic text ui-corner-all" value="{{ application.address[0].address_line2 }}" />
                         </div>
                     </div>
                 </div>
@@ -187,13 +187,13 @@
                     <div class="col-lg-4">
                         <div class="field">
                             <label for="address_suburb" class="question">Suburb</label>
-                            <input type="text" name="address[suburb]" id="address_suburb" class="dynamic text ui-corner-all" />
+                            <input type="text" name="address[suburb]" id="address_suburb" class="dynamic text ui-corner-all" value="{{ application.address[0].suburb }}" />
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="field">
                             <label for="address_postcode" class="question">Postcode</label>
-                            <input type="text" name="address[postcode]" id="address_postcode" class="dynamic text digits ui-corner-all" />
+                            <input type="text" name="address[postcode]" id="address_postcode" class="dynamic text digits ui-corner-all" value="{{ application.address[0].postcode }}" />
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -201,14 +201,14 @@
                             <label for="address_state" class="question">State</label>
                             <select name="address[state]" id="address_state" class="dynamic ui-corner-all">
                                 <option value=""></option>
-                                <option value="ACT">Australian Capital Territory</option>
-                                <option value="NSW">New South Wales</option>
-                                <option value="NT">Northern Territory</option>
-                                <option value="QLD">Queensland</option>
-                                <option value="SA">South Australia</option>
-                                <option value="TAS">Tasmania</option>
-                                <option value="VIC">Victoria</option>
-                                <option value="WA">Western Australia</option>
+                                <option value="ACT" {% if application.address[0].state == 'ACT' %}selected="selected"{% endif %}>Australian Capital Territory</option>
+                                <option value="NSW" {% if application.address[0].state == 'NSW' %}selected="selected"{% endif %}>New South Wales</option>
+                                <option value="NT" {% if application.address[0].state == 'NT' %}selected="selected"{% endif %}>Northern Territory</option>
+                                <option value="QLD" {% if application.address[0].state == 'QLD' %}selected="selected"{% endif %}>Queensland</option>
+                                <option value="SA" {% if application.address[0].state == 'SA' %}selected="selected"{% endif %}>South Australia</option>
+                                <option value="TAS" {% if application.address[0].state == 'TAS' %}selected="selected"{% endif %}>Tasmania</option>
+                                <option value="VIC" {% if application.address[0].state == 'VIC' %}selected="selected"{% endif %}>Victoria</option>
+                                <option value="WA" {% if application.address[0].state == 'WA' %}selected="selected"{% endif %}>Western Australia</option>
                             </select>
                         </div>
                     </div>
@@ -217,16 +217,16 @@
                             <label for="address_duration_months" class="question">How long have you lived here?</label>
                             <select name="address[duration_months]" id="address_duration_months" class="dynamic ui-corner-all">
                                 <option value=""></option>
-                                <option value="1">1 month</option>
-                                <option value="2">2 months</option>
-                                <option value="3">3 months</option>
-                                <option value="4">4 months</option>
-                                <option value="5">5 months</option>
-                                <option value="6">6 months</option>
-                                <option value="9">6-9 months</option>
-                                <option value="12">9-12 months</option>
-                                <option value="18">12-18 months</option>
-                                <option value="24">18 months+</option>
+                                <option value="1" {% if application.address[0].duration_months == 1 %}selected="selected"{% endif %}>1 month</option>
+                                <option value="2" {% if application.address[0].duration_months == 2 %}selected="selected"{% endif %}>2 months</option>
+                                <option value="3" {% if application.address[0].duration_months == 3 %}selected="selected"{% endif %}>3 months</option>
+                                <option value="4" {% if application.address[0].duration_months == 4 %}selected="selected"{% endif %}>4 months</option>
+                                <option value="5" {% if application.address[0].duration_months == 5 %}selected="selected"{% endif %}>5 months</option>
+                                <option value="6" {% if application.address[0].duration_months == 6 %}selected="selected"{% endif %}>6 months</option>
+                                <option value="9" {% if application.address[0].duration_months == 9 %}selected="selected"{% endif %}>6-9 months</option>
+                                <option value="12" {% if application.address[0].duration_months == 12 %}selected="selected"{% endif %}>9-12 months</option>
+                                <option value="18" {% if application.address[0].duration_months == 18 %}selected="selected"{% endif %}>12-18 months</option>
+                                <option value="24" {% if application.address[0].duration_months == 24 %}selected="selected"{% endif %}>18 months+</option>
                             </select>
                         </div>
                     </div>
@@ -243,18 +243,18 @@
                             <label for="income_type" class="question">What type of income do you receive?</label>
                             <select name="income[type]" id="income_type" class="dynamic ui-corner-all">
                                 <option value=""></option>
-                                <option value="C">Contractor</option>
-                                <option value="T">Temporary Employee</option>
-                                <option value="P">Permanent Employee</option>
-                                <option value="S">Self-Employed</option>
-                                <option value="B">Benefits / Pension</option>
+                                <option value="C" {% if application.income[0].type == 'C' %}selected="selected"{% endif %}>Contractor</option>
+                                <option value="T" {% if application.income[0].type == 'T' %}selected="selected"{% endif %}>Temporary Employee</option>
+                                <option value="P" {% if application.income[0].type == 'P' %}selected="selected"{% endif %}>Permanent Employee</option>
+                                <option value="S" {% if application.income[0].type == 'S' %}selected="selected"{% endif %}>Self-Employed</option>
+                                <option value="B" {% if application.income[0].type == 'B' %}selected="selected"{% endif %}>Benefits / Pension</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="field">
                             <label for="income_amount" class="question">How much are you paid?</label>
-                            <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="income[amount]" id="income_amount" class="dynamic text number ui-corner-all" min="0" max="20000" step="100" value="0" /></div>
+                            <div class="currency"><span class="currency-symbol ui-corner-left">$</span><input type="number" name="income[amount]" id="income_amount" class="dynamic text number ui-corner-all" min="0" max="20000" step="100" value="{{ application.income[0].amount }}" /></div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -262,9 +262,9 @@
                             <label for="income_period" class="question">How often are you paid?</label>
                             <select name="income[period]" id="income_period" class="dynamic ui-corner-all">
                                 <option value=""></option>
-                                <option value="W">Weekly</option>
-                                <option value="F">Fortnightly</option>
-                                <option value="M">Monthly</option>
+                                <option value="W" {% if application.income[0].period == 'W' %}selected="selected"{% endif %}>Weekly</option>
+                                <option value="F" {% if application.income[0].period == 'F' %}selected="selected"{% endif %}>Fortnightly</option>
+                                <option value="M" {% if application.income[0].period == 'M' %}selected="selected"{% endif %}>Monthly</option>
                             </select>
                         </div>
                     </div>
@@ -273,16 +273,16 @@
                             <label for="income_duration_months" class="question">How long have you had this income?</label>
                             <select name="income[duration_months]" id="income_duration_months" class="dynamic ui-corner-all">
                                 <option value=""></option>
-                                <option value="1">1 month</option>
-                                <option value="2">2 months</option>
-                                <option value="3">3 months</option>
-                                <option value="4">4 months</option>
-                                <option value="5">5 months</option>
-                                <option value="6">6 months</option>
-                                <option value="9">6-9 months</option>
-                                <option value="12">9-12 months</option>
-                                <option value="18">12-18 months</option>
-                                <option value="24">18 months+</option>
+                                <option value="1" {% if application.income[0].duration_months == 1 %}selected="selected"{% endif %}>1 month</option>
+                                <option value="2" {% if application.income[0].duration_months == 2 %}selected="selected"{% endif %}>2 months</option>
+                                <option value="3" {% if application.income[0].duration_months == 3 %}selected="selected"{% endif %}>3 months</option>
+                                <option value="4" {% if application.income[0].duration_months == 4 %}selected="selected"{% endif %}>4 months</option>
+                                <option value="5" {% if application.income[0].duration_months == 5 %}selected="selected"{% endif %}>5 months</option>
+                                <option value="6" {% if application.income[0].duration_months == 6 %}selected="selected"{% endif %}>6 months</option>
+                                <option value="9" {% if application.income[0].duration_months == 9 %}selected="selected"{% endif %}>6-9 months</option>
+                                <option value="12" {% if application.income[0].duration_months == 12 %}selected="selected"{% endif %}>9-12 months</option>
+                                <option value="18" {% if application.income[0].duration_months == 18 %}selected="selected"{% endif %}>12-18 months</option>
+                                <option value="24" {% if application.income[0].duration_months == 24 %}selected="selected"{% endif %}>18 months+</option>
                             </select>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
                     <div class="col-lg-12">
                         <div class="field">
                             <label for="income_description" class="question">Please give your job title or type of benefits</label>
-                            <input type="text" name="income[description]" id="income_description" class="dynamic text ui-corner-all" />
+                            <input type="text" name="income[description]" id="income_description" class="dynamic text ui-corner-all" value="{{ application.income[0].description }}" />
                         </div>
                     </div>
                 </div>
@@ -306,11 +306,11 @@
                         <div class="field">
                             <label for="" class="question">Please confirm your intention to apply for this loan</label>
                             <div class="checkbox">
-                                <input type="checkbox" name="application[accepted_terms]" id="application_accepted_terms" class="checkbox" />
+                                <input type="checkbox" name="application[accepted_terms]" id="application_accepted_terms" class="checkbox" {% if application.accepted_terms %}checked="checked"{% endif %} />
                                 <label for="application_accepted_terms">I have read and understood the <a href="{{ app.request.baseUrl }}/terms">terms and conditions</a> of this loan application</label>
                             </div>
                             <div class="checkbox">
-                                <input type="checkbox" name="application[accepted_marketing]" id="application_accepted_marketing" class="checkbox" />
+                                <input type="checkbox" name="application[accepted_marketing]" id="application_accepted_marketing" class="checkbox" {% if application.accepted_marketing %}checked="checked"{% endif %} />
                                 <label for="application_accepted_marketing">I wish to receive marketing material such as competitions, promotions, events and new products</label>
                             </div>
                         </div>

@@ -141,8 +141,8 @@ var loans = (function ($) {
                 $formNavigation = $('#form-navigation'),
 				$formNavigationButtons = $formNavigation.find('input'),
                 $fieldsets = $('fieldset'),
-				$previousButton = $('<a href="#">&laquo; Previous</a>'),
-				$nextButton = $('<a href="#">Next &raquo;</a>');
+				$previousButton = $('<button>&laquo; Previous</button>'),
+				$nextButton = $('<button>Next &raquo;</button>');
 
             // Hide extraneous stuff
             $('a.top').hide();
