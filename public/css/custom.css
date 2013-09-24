@@ -196,16 +196,23 @@ ul#loan-summary li {
 	padding: .25em;
 }
 
-.buttons #next-button {
+.buttons #previous-button-container {
 	display: block;
-	float: right;
+	float: left;
+	text-align: left;
 	margin: .5em;
 }
 
-.buttons #previous-button {
+.buttons #next-button-container {
 	display: block;
-	float: left;
+	float: right;
+	text-align: right;
 	margin: .5em;
+}
+
+.buttons #previous-button-container span, .buttons #next-button-container span {
+	display: block;
+	font-size: x-small;
 }
 
 /* Home page banner */
