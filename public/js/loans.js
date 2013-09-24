@@ -97,14 +97,14 @@ var loans = (function ($) {
 				$previousButtonMessage.fadeOut();
 			} else {
 				$previousButton.button('disable');
-				$previousButtonMessage.text('You cannot go back further than the first page').fadeIn();
+				$previousButtonMessage.text('You cannot go back further than the first step').fadeIn();
 			}
 			if (currentStep < 5 && availableSteps.length > currentStep) {
 				$nextButton.button('enable');
 				$nextButtonMessage.fadeOut();
 			} else {
 				$nextButton.button('disable');
-				$nextButtonMessage.text(currentStep === 5 ? 'You cannot proceed beyond the last page' : 'You cannot proceed until you have completed this page').fadeIn();
+				$nextButtonMessage.text(currentStep === 5 ? 'You cannot proceed beyond the last step' : 'You cannot proceed until you have completed this step').fadeIn();
 			}
         },
 
@@ -282,7 +282,7 @@ var loans = (function ($) {
                 });
             });
 
-			// Jump to the initial page (last one that is available)
+			// Jump to the initial step (last one that is available) and perform initial UI updates
 			navigateToStep(steps[steps.length - 1], true);
 			updateFormNavigation()
         }
