@@ -85,25 +85,41 @@ $app->get('/apply/{id}/{token}', function ($id, $token) use ($app) {
 		$application[$child] = $app['db']->fetchAll($sql, $params);
 	}
 
-	// Perform initial validation
+	// Perform initial validation, and find steps that should be made available initially (first page is always available)
 	$validation = require_once('../schema/validation.php');
 	$messages = array();
+	$steps = array( 1 );
+	$stepIndex = 1;
 	foreach ($validation['entities'] as $entityKey => $entity) {
 		$messages[$entityKey] = array();
+		$activateStep = true;
 		foreach ($entity as $fieldKey => $fieldValidator) {
 			$currentValue = $entityKey === 'application' ? $application[$fieldKey] : $application[$entityKey][0][$fieldKey];
 			if (!is_null($currentValue)) {
+				$fieldMessages = $fieldValidator($application, $currentValue);
 				$messages[$entityKey][$fieldKey] = array(
-					'messages' => $fieldValidator($application, $currentValue)
+					'messages' => $fieldMessages
 				);
+				foreach ($fieldMessages as $message) {
+					if (!$message['valid']) {
+						$activateStep = false;
+					}
+				}
+			} else {
+				$activateStep = false;
 			}
 		}
+		if ($activateStep) {
+			$steps[] = $stepIndex + 1;
+		}
+		$stepIndex++;
 	}
 
 	// Render the page
 	return $app['twig']->render('application-form.twig', array(
 		'application' => $application,
-		'messages' => $messages
+		'messages' => $messages,
+		'steps' => $steps
 	));
 });
 

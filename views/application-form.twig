@@ -329,7 +329,7 @@
     <script>
         (function ($) {
             $(function () {
-				loans.setupApplicationForm('{{ app.request.baseUrl }}', '{{ application.id }}', '{{ application.token }}', {{ messages|json_encode|raw }});
+				loans.setupApplicationForm('{{ app.request.baseUrl }}', '{{ application.id }}', '{{ application.token }}', {{ messages|json_encode|raw }}, {{ steps|json_encode|raw }});
            	});
         }(jQuery));
     </script>

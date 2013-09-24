@@ -14,6 +14,15 @@ var loans = (function ($) {
          */
         currentStep = 1,
 
+		/**
+		 * Steps that are currently accessible to the user (1-based indexes)
+		 */
+		availableSteps = [],
+
+		$formNavigationButtons,
+		$previousButton,
+		$nextButton,
+
         /**
          * CSS classes for the label.question elements and their child icons
          */
@@ -40,28 +49,38 @@ var loans = (function ($) {
          * Navigate to the given step.
          *
          * @param step
+		 * @param skipAnimation
          */
-        navigateToStep = function (step) {
-            if (step !== currentStep) {
-                $('fieldset').not('#step-' + step).hide('slide', { direction: step > currentStep ? 'left' : 'right' }, 'slow');
-                $('fieldset#step-' + step).css({ position: 'absolute', top: 0 }).show('slide', { direction: step > currentStep ? 'right' : 'left' }, 'slow', function () {
-                    $(this).css({ position: 'static' });
-                });
+        navigateToStep = function (step, skipAnimation) {
+			var stepIsAvailable = false;
+			$.each(availableSteps, function (index, availableStep) {
+				stepIsAvailable = stepIsAvailable || availableStep === step;
+			});
+			if (step !== currentStep && stepIsAvailable) {
+				if (skipAnimation) {
+					$('fieldset').not('#step-' + step).hide();
+					$('fieldset#step-' + step).show();
+				} else {
+					$('fieldset').not('#step-' + step).hide('slide', { direction: step > currentStep ? 'left' : 'right' }, 'slow');
+					$('fieldset#step-' + step).css({ position: 'absolute', top: 0 }).show('slide', { direction: step > currentStep ? 'right' : 'left' }, 'slow', function () {
+						$(this).css({ position: 'static' });
+					});
+				}
                 currentStep = step;
             }
         },
 
         /**
          * Set the state of the form navigation buttons
-         *
-         * @param $formNavigationButtons
-         * @param $previousButton
-         * @param $nextButton
          */
-        updateFormNavigation = function ($formNavigationButtons, $previousButton, $nextButton) {
+        updateFormNavigation = function () {
             $formNavigationButtons.filter(':nth-child(' + (currentStep * 2 - 1) + ')').attr('checked', true).button('refresh');
             $previousButton.button(currentStep > 1 ? 'enable' : 'disable');
             $nextButton.button(currentStep < 5 ? 'enable' : 'disable');
+			if (currentStep < 5 && $('fieldset#step-' + currentStep + ' label.question').not('.ui-state-highlight').length === 0) {
+				availableSteps.push(currentStep + 1);
+				$('#form-navigation-' + (currentStep + 1)).attr('disabled', false).button('refresh');
+			}
         },
 
         /**
@@ -115,7 +134,10 @@ var loans = (function ($) {
                 data: {
                     value: value
                 },
-                success: handleResponse
+                success: function (response) {
+					handleResponse(response);
+					updateFormNavigation();
+				}
             });
         };
 
@@ -135,14 +157,16 @@ var loans = (function ($) {
          * @param applicationId Numerical ID of the loan application currently being processed
          * @param applicationToken Security token of the loan application currently being processed
          * @param messages Array of messages to initialise the form with
+		 * @param steps Array of step indexes (1-based) that should be made available initially
          */
-        setupApplicationForm: function (baseUrl, applicationId, applicationToken, messages) {
+        setupApplicationForm: function (baseUrl, applicationId, applicationToken, messages, steps) {
             var maxHeight = 0,
-                $formNavigation = $('#form-navigation'),
-                $formNavigationButtons = $formNavigation.find('input'),
-                $fieldsets = $('fieldset'),
-                $previousButton = $('<button>&laquo; Previous</button>'),
-                $nextButton = $('<button>Next &raquo;</button>');
+				$formNavigation = $('#form-navigation'),
+                $fieldsets = $('fieldset');
+
+			$formNavigationButtons = $formNavigation.find('input');
+			$previousButton = $('<button>&laquo; Previous</button>');
+			$nextButton = $('<button>Next &raquo;</button>');
 
             // Hide extraneous stuff
             $('a.top').hide();
@@ -185,29 +209,28 @@ var loans = (function ($) {
             });
 
             // Setup form navigation buttons
-            $formNavigationButtons.filter(':first-child').attr('checked', true);
+			$formNavigationButtons.attr('disabled', true);
+			$.each(steps, function (index, stepToActivate) {
+				availableSteps.push(stepToActivate);
+				$('#form-navigation-' + stepToActivate).attr('disabled', false);
+			});
             $formNavigation.buttonset().find('label').click(function () {
                 navigateToStep(parseInt($(this).attr('for').replace(/^form\-navigation\-/, ''), 10));
-                updateFormNavigation($formNavigationButtons, $previousButton, $nextButton);
+                updateFormNavigation();
             });
             $('form .buttons')
                 .append($previousButton.attr({ id: 'previous-button' }).button().click(function (e) {
-                    if (currentStep > 1) {
-                        navigateToStep(currentStep - 1);
-                        updateFormNavigation($formNavigationButtons, $previousButton, $nextButton);
-                    }
+					navigateToStep(currentStep - 1);
+					updateFormNavigation();
                     e.preventDefault();
                     return false;
                 }))
                 .append($nextButton.attr({ id: 'next-button' }).button().click(function (e) {
-                    if (currentStep < 5) { // TODO && next step is available...
-                        navigateToStep(currentStep + 1);
-                        updateFormNavigation($formNavigationButtons, $previousButton, $nextButton);
-                    }
+					navigateToStep(currentStep + 1);
+					updateFormNavigation();
                     e.preventDefault();
                     return false;
                 }));
-            updateFormNavigation($formNavigationButtons, $previousButton, $nextButton);
 
             // Setup fieldsets to have equal height (plus a bit for error messages), and show the first fieldset
             $fieldsets.each(function (index, fieldset) {
@@ -223,6 +246,10 @@ var loans = (function ($) {
                     handleResponse(field);
                 });
             });
+
+			// Jump to the initial page (last one that is available)
+			navigateToStep(steps[steps.length - 1], true);
+			updateFormNavigation()
         }
     };
 }(jQuery));
